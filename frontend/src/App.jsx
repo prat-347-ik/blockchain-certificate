@@ -132,6 +132,16 @@ function App() {
       });
 
       const accounts = await walletClient.requestAddresses();
+      const chainId = await walletClient.getChainId();
+
+      if (chainId !== 31337) {
+        setWalletAddress("");
+        setIssueStatus(
+          "Wrong network. Please switch MetaMask to Hardhat Local (Chain ID 31337)."
+        );
+        return;
+      }
+
       setWalletAddress(accounts[0] || "");
       setIssueStatus("");
     } catch (error) {
@@ -291,6 +301,14 @@ function App() {
       });
 
       const [account] = await walletClient.requestAddresses();
+      const chainId = await walletClient.getChainId();
+
+      if (chainId !== 31337) {
+        setIssueStatus(
+          "Wrong network. Switch MetaMask to Hardhat Local (Chain ID 31337)."
+        );
+        return;
+      }
 
       if (!account) {
         setIssueStatus("No MetaMask account selected.");
